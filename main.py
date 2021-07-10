@@ -2,6 +2,7 @@ import logging
 import asyncio
 from datetime import datetime
 import parse_doc
+import ignoring
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
@@ -12,12 +13,8 @@ from aiogram.dispatcher.filters import Text
 logging.basicConfig(level=logging.INFO)
 
 # инициализируем бота
-bot = Bot(token='1621723883:AAH6imt-874kBXu7lBnYTzd4nW__ROEvAxQ')
+bot = Bot(token=ignoring.TOKEN)
 dp = Dispatcher(bot)
-
-
-# # инициализируем парсер
-# sg = StopGame('lastkey.txt')
 
 
 # проверяем наличие новых игр и делаем рассылки
@@ -25,32 +22,6 @@ async def scheduled(wait_for):
     while True:
         await asyncio.sleep(wait_for)
         parse_doc.one_use()
-        # проверяем наличие новых игр
-        # new_games = sg.new_games()
-        #
-        # if (new_games):
-        #     # если игры есть, переворачиваем список и итерируем
-        #     new_games.reverse()
-        #     for ng in new_games:
-        #         # парсим инфу о новой игре
-        #         nfo = sg.game_info(ng)
-        #
-        #         # получаем список подписчиков бота
-        #         subscriptions = db.get_subscriptions()
-        #
-        #         # отправляем всем новость
-        #         with open(sg.download_image(nfo['image']), 'rb') as photo:
-        #             for s in subscriptions:
-        #                 await bot.send_photo(
-        #                     s[1],
-        #                     photo,
-        #                     caption=nfo['title'] + "\n" + "Оценка: " + nfo['score'] + "\n" + nfo['excerpt'] + "\n\n" +
-        #                             nfo['link'],
-        #                     disable_notification=True
-        #                 )
-        #
-        #         # обновляем ключ
-        #         sg.update_lastkey(nfo['id'])
 
 
 @dp.message_handler(commands=['start'])
@@ -59,9 +30,15 @@ async def process_start_command(message: types.Message):
     but1 = types.KeyboardButton(text='ОДНОРАЗКИ')
     but2 = types.KeyboardButton(text='ЖЕЛЕЗО')
     but3 = types.KeyboardButton(text='ЖИДКОСТИ')
-    keyboard.add(but1, but2, but3)
+    but4 = types.KeyboardButton(text='Задать вопрос')
+    keyboard.row(but1, but2, but3).add(but4)
 
     await message.reply("Привет!", reply_markup=keyboard)
+
+
+@dp.message_handler(Text(equals='Задать вопрос'))
+async def one_use_answer(message: types.Message):
+    await message.answer('@siberian_vapor_102')
 
 
 @dp.message_handler(Text(equals='ОДНОРАЗКИ'))
@@ -102,7 +79,12 @@ async def hardware_answer(call: types.CallbackQuery):
         await call.answer()
 
 
+@dp.message_handler(commands=['chilldabrek'])
+async def process_start_command(message: types.Message):
+    await message.reply("Да да он\ntelegram:\n@kerbadllihc\n\nhttps://github.com/childabrek")
+
+
 # запускаем лонг поллинг
 if __name__ == '__main__':
-    # dp.loop.create_task(scheduled(10))  # пока что оставим 10 секунд (в качестве теста)
+    # dp.loop.create_task(scheduled(10))
     executor.start_polling(dp, skip_updates=True)
