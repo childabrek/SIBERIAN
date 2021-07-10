@@ -2,7 +2,6 @@ import logging
 import asyncio
 from datetime import datetime
 import parse_doc
-import ignoring
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
