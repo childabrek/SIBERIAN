@@ -12,7 +12,8 @@ from aiogram.dispatcher.filters import Text
 logging.basicConfig(level=logging.INFO)
 
 # инициализируем бота
-bot = Bot(token='1621723883:AAH6imt-874kBXu7lBnYTzd4nW__ROEvAxQ')
+# TOKEN = your API token
+bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 
