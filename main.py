@@ -7,6 +7,7 @@ from aiogram.types import ReplyKeyboardRemove, \
     ReplyKeyboardMarkup, KeyboardButton, \
     InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.dispatcher.filters import Text
+import re
 
 # задаем уровень логов
 logging.basicConfig(level=logging.INFO)
@@ -16,11 +17,12 @@ bot = Bot(token='1621723883:AAH6imt-874kBXu7lBnYTzd4nW__ROEvAxQ')
 dp = Dispatcher(bot)
 
 
-# проверяем наличие новых игр и делаем рассылки
 async def scheduled(wait_for):
     while True:
         await asyncio.sleep(wait_for)
         parse_doc.one_use()
+        parse_doc.hardware()
+        parse_doc.liquids_standart()
 
 
 @dp.message_handler(commands=['start'])
@@ -31,8 +33,36 @@ async def process_start_command(message: types.Message):
     but3 = types.KeyboardButton(text='ЖИДКОСТИ')
     but4 = types.KeyboardButton(text='Задать вопрос')
     keyboard.row(but1, but2, but3).add(but4)
-
     await message.reply("Привет!", reply_markup=keyboard)
+
+
+@dp.message_handler(commands=['referal'])
+async def referal_start(message: types.Message):
+    my_channel_id = -1001478296614
+    user_channel_status = await bot.get_chat_member(chat_id=my_channel_id, user_id=message.chat.id)
+    user_channel_status = re.findall(r"\w*", str(user_channel_status))
+    try:
+        if user_channel_status[70] != 'left':
+            with open('1.png', mode='rb') as f:
+                await bot.send_photo(message.from_user.id, f)
+            await bot.send_message(message.from_user.id, 'ок')
+
+        else:
+            with open('2.png', mode='rb') as f:
+                await bot.send_photo(message.from_user.id, f)
+            await bot.send_message(message.chat.id, 'ne ok')
+            # Условие для тех, кто не подписан
+    except:
+        if user_channel_status[60] != 'left':
+            with open('1.png', mode='rb') as f:
+                await bot.send_photo(message.from_user.id, f)
+            await bot.send_message(message.from_user.id, 'ok1')
+            # Условие для "подписанных"
+        else:
+            with open('2.png', mode='rb') as f:
+                await bot.send_photo(message.from_user.id, f)
+            await bot.send_message(message.from_user.id, 'ne ok1')
+            # Условие для тех, кто не подписан
 
 
 @dp.message_handler(Text(equals='Задать вопрос'))
@@ -70,14 +100,6 @@ async def liq_answer(call: types.CallbackQuery):
         await call.answer()
 
 
-@dp.callback_query_handler(text='liquids_standart')
-async def hardware_answer(call: types.CallbackQuery):
-    with open('liquids_salt.txt', 'r', encoding='utf-8') as f:
-        texts = f.read()
-        await call.message.answer(texts)
-        await call.answer()
-
-
 @dp.message_handler(commands=['chilldabrek'])
 async def process_start_command(message: types.Message):
     await message.reply("Да да он\ntelegram:\n@kerbadllihc\n\nhttps://github.com/childabrek")
@@ -85,5 +107,7 @@ async def process_start_command(message: types.Message):
 
 # запускаем лонг поллинг
 if __name__ == '__main__':
-    # dp.loop.create_task(scheduled(10))
+    loop = asyncio.get_event_loop()
+    loop.create_task(scheduled(60))  # поставим 10 секунд, в качестве теста
+
     executor.start_polling(dp, skip_updates=True)

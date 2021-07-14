@@ -2,7 +2,8 @@ import requests
 
 
 def one_use():
-    url_0 = 'https://docs.google.com/document/d/1DyJ-Xrw4wFXGOJVH2h2GQ93dmpmqGEN-qKGHgL6sy9E/export?format=txt'
+
+    url_0 = 'https://docs.google.com/document/d/1ehCvMVRWZJlb04ztIHsph-3RrREOlsPfHfqRlx297fo/export?format=txt'
     # binary open install and save
     with open('one_use.txt', 'wb') as first:
         ufr_0 = requests.get(url_0)
@@ -22,7 +23,7 @@ def one_use():
 
 
 def hardware():
-    url = 'https://docs.google.com/document/d/11FpcVoQMN1X18b1PUVCzj_pnNHMvmDl5v5JKYKJT-q0/export?format=txt'
+    url = 'https://docs.google.com/document/d/1ikzohprimODR4ch-jdmA0hTdBvqG-PSczKGQ0kAPqjQ/export?format=txt'
 
     with open('hardware.txt', 'wb') as first:
         ufr = requests.get(url)
@@ -44,7 +45,7 @@ def hardware():
 
 
 def liquids_standart():
-    url = 'https://docs.google.com/document/d/1TReyVsHJ7TYm7bTEEWA2X7U0iBp1klEqnlntd1TRbIw/export?format=txt'
+    url = 'https://docs.google.com/document/d/1JNB-hx19OfUGwV0g5oR3-Ng8G6fnk9cgs3Q35va9rYU/export?format=txt'
 
     with open('liquids_standart.txt', 'wb') as first:
         ufr = requests.get(url)
@@ -66,25 +67,29 @@ def liquids_standart():
         third.write(answer)
 
 
-def liquids_salt():
-    url = 'https://docs.google.com/document/d/1QGe5vdug10jfwSuHAy3-qiJPEAV8A8lGgT5nLGTMNmg/export?format=txt'
+# def liquids_salt():
+#     url = 'https://docs.google.com/document/d/1QGe5vdug10jfwSuHAy3-qiJPEAV8A8lGgT5nLGTMNmg/export?format=txt'
+#
+#     with open('liquids_salt.txt', 'wb') as first:
+#         ufr = requests.get(url)
+#         first.write(ufr.content)  # записываем содержимое в файл; как видите - content запроса
+#
+#     # read file before install
+#     with open('liquids_salt.txt', 'r', encoding='utf-8') as second:
+#         # some ugly code
+#         answer = second.read()
+#         answer = answer.replace('﻿horizontal line \n\n', '').replace('_', '')
+#         answer = answer.replace('Актуальный прайс \n\n', '').replace('Описание вкусов', '')
+#         answer = answer.replace(' :\n', '').replace(':\n', '').replace(': \n', '')
+#         # print(answer)
+#         while '\n\n\n' in answer:
+#             answer = answer.replace('\n\n\n', '\n\n')
+#
+#     with open('liquids_salt.txt', 'w', encoding='utf-8') as third:
+#         print(answer)
+#         print(len(answer))
+#         third.write(answer)
 
-    with open('liquids_salt.txt', 'wb') as first:
-        ufr = requests.get(url)
-        first.write(ufr.content)  # записываем содержимое в файл; как видите - content запроса
-
-    # read file before install
-    with open('liquids_salt.txt', 'r', encoding='utf-8') as second:
-        # some ugly code
-        answer = second.read()
-        answer = answer.replace('﻿horizontal line \n\n', '').replace('_', '')
-        answer = answer.replace('Актуальный прайс \n\n', '').replace('Описание вкусов', '')
-        answer = answer.replace(' :\n', '').replace(':\n', '').replace(': \n', '')
-        # print(answer)
-        while '\n\n\n' in answer:
-            answer = answer.replace('\n\n\n', '\n\n')
-
-    with open('liquids_salt.txt', 'w', encoding='utf-8') as third:
-        print(answer)
-        print(len(answer))
-        third.write(answer)
+# one_use()
+# hardware()
+# liquids_standart()
